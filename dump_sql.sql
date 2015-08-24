@@ -4,19 +4,15 @@ CREATE DATABASE "dmitry.busugin"
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
        LC_COLLATE = 'Russian_Russia.1251'
-       LC_CTYPE = 'Russian_Russia.1251'
-       CONNECTION LIMIT = -1;
+       LC_CTYPE = 'Russian_Russia.1251';       
 	   
 --Создаем таблицу messages (id – порядковый номер сообщения,  client_id – идентификатор клиента, message – текст сообщения клиента.)
 CREATE TABLE messages
 (
-  id serial NOT NULL,
+  id serial PRIMARY KEY,
   client_id character varying(30) NOT NULL,
   message character varying(300) NOT NULL
 )
-WITH (
-  OIDS=FALSE
-);
 
 --Устанавливаем владельца таблицы
 ALTER TABLE messages
