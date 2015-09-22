@@ -1,32 +1,40 @@
--- Создаем БД и устанавливаем владельца БД
-CREATE DATABASE "dmitry.busugin"
-  WITH OWNER = "dmitry.busugin"
-       ENCODING = 'UTF8'
-       TABLESPACE = pg_default
-       LC_COLLATE = 'Russian_Russia.1251'
-       LC_CTYPE = 'Russian_Russia.1251';       
-	   
---Создаем таблицу messages (id – порядковый номер сообщения,  client_id – идентификатор клиента, message – текст сообщения клиента.)
-CREATE TABLE messages
-(
-  id serial PRIMARY KEY,
-  client_id character varying(30) NOT NULL,
-  message character varying(300) NOT NULL
-)
-
---Устанавливаем владельца таблицы
-ALTER TABLE messages
-  OWNER TO "dmitry.busugin";
+--Дамп БД:
+  --Создание пользователя "dmitry.busugin"
+  CREATE USER "dmitry.busugin" WITH password ‘password’;
+  
+  --Создание БД и присвоение ей владельца
+  CREATE DATABASE "dmitry.busugin"  WITH OWNER = "dmitry.busugin";
+  
+  --Создание таблицы users и присвоение владельца "dmitry.busugin"
+  CREATE TABLE users (
+    client_id character varying(30) NOT NULL PRIMARY KEY,
+    client_name character varying(50) NOT NULL);
+  ALTER TABLE messages OWNER TO "dmitry.busugin";
+  
+  --Создание таблицы messages и присвоение владельца "dmitry.busugin"
+  CREATE TABLE messages (
+    id serial NOT NULL PRIMARY KEY,
+    client_id character varying(30),
+    message character varying(300),
+    FOREIGN KEY (client_id) REFERENCES users (client_id));
+  ALTER TABLE messages OWNER TO "dmitry.busugin";
   
 --Заполняем таблицу тестовыми данными
-INSERT INTO messages(client_id, message) VALUES 
-	('Дима', 'Всем привет. Завтра встречаемся в 15:00 у часов на баумана.'),
-	('Алла', 'Привет, хорошо.'),
-	('Сережа', 'Я приду чуть позже, надо съездить на вокзал.'),
-	('Катя', 'Хорошо.'),
-	('Дима', 'Ок. Возьмите с собой одежду которую не жалко, пойдем играть в пейнтбол.'),
-	('Дима', 'Как раз обещают хорошую погоду.'),
-	('Катя', 'Круто! А то вся неделя хмурая была, а тут солнце будет.'),
-	('Сережа', 'Очень хорошо.'),
-	('Алла', 'Хорошо, поняла.'),
-	('Дима', 'Тогда до встречи!');
+	--users:
+	INSERT INTO users(client_id, client_name)
+		VALUES ('Дмитрий', 'Дмитрий Владимирович'),
+		VALUES ('Катя', 'Катя Чеботарева'),
+		VALUES ('Марина', 'Марина Зайцева'),
+		VALUES ('Саша', 'Саша Семенов');
+  
+	--users:
+	INSERT INTO messages(client_id, message)
+		VALUES ('Дмитрий', 'Привет. Сегодня все идем на выставку.'),
+		VALUES ('Катя', 'Привет. Хорошо, во сколько встречаемся и где?.'),
+		VALUES ('Саша', 'Привет. Сколько с собой взять денег?.'),
+		VALUES ('Дмитрий', 'В 18:00 у часов на баумана.'),
+		VALUES ('Дмитрий', 'Билет стоит 300р на выставку.'),
+		VALUES ('Марина', 'Всем привет. Хорошо, я буду!.'),
+		VALUES ('Катя', 'Хорошо, я буду у часов.'),
+		VALUES ('Саша', 'Я приду, но опоздаю на 15 мин.'),
+		VALUES ('Дмитрий', 'Хорошо, тогда до встречи.');
