@@ -7,8 +7,7 @@
   
   --Создание таблицы users и присвоение владельца "dmitry.busugin"
   CREATE TABLE users (
-    client_id character varying(30) NOT NULL PRIMARY KEY,
-    client_name character varying(50) NOT NULL);
+    client_id character varying(30) NOT NULL PRIMARY KEY);
   ALTER TABLE messages OWNER TO "dmitry.busugin";
   
   --Создание таблицы messages и присвоение владельца "dmitry.busugin"
@@ -19,13 +18,13 @@
     FOREIGN KEY (client_id) REFERENCES users (client_id));
   ALTER TABLE messages OWNER TO "dmitry.busugin";
   
---Заполняем таблицу тестовыми данными
+--Заполняем таблицу базовыми тестовыми данными.
 	--users:
 	INSERT INTO users(client_id, client_name)
-		VALUES ('Дмитрий', 'Дмитрий Владимирович'),
-		VALUES ('Катя', 'Катя Чеботарева'),
-		VALUES ('Марина', 'Марина Зайцева'),
-		VALUES ('Саша', 'Саша Семенов');
+		VALUES ('Дмитрий'),
+		VALUES ('Катя'),
+		VALUES ('Марина'),
+		VALUES ('Саша');
   
 	--users:
 	INSERT INTO messages(client_id, message)
