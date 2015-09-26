@@ -20,7 +20,7 @@
   
 --Заполняем таблицу базовыми тестовыми данными.
 	--users:
-	INSERT INTO users(client_id, client_name)
+	INSERT INTO users(client_id)
 		VALUES ('Дмитрий'),
 		VALUES ('Катя'),
 		VALUES ('Марина'),
